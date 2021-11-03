@@ -8,6 +8,9 @@ import {RssFeed,
     WorkOutline,
     Event,
     School} from "@material-ui/icons"
+import {Users} from "../../dummyData";
+import Online from "../online/Online";
+import CloseFriend from "../closeFriend/CloseFriend";
 export default function SideBar(){
     return (<div className="sideBar">
         <div className="sideBarWrapper">
@@ -52,19 +55,7 @@ export default function SideBar(){
             <button className="sideBarButton">Show More</button>
             <hr className="sideBarHr"/>
             <ul className="sideBarFriendList">
-                <li className="sideBarFriend">
-                    <img className="sideBarFriendImg" src="/assets/person/2.jpeg" alt="" />
-                    <span className="sideBarFriendName">Jane Doe</span>
-                </li>
-                <li className="sideBarFriend">
-                    <img className="sideBarFriendImg" src="/assets/person/2.jpeg" alt="" />
-                    <span className="sideBarFriendName">Jane Doe</span>
-                </li>
-                <li className="sideBarFriend">
-                    <img className="sideBarFriendImg" src="/assets/person/2.jpeg" alt="" />
-                    <span className="sideBarFriendName">Jane Doe</span>
-                </li>
-
+                {Users.map(user=><CloseFriend user={user}/>)}
             </ul>
         </div>
     </div>)
