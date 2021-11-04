@@ -1,10 +1,17 @@
 import "./topbar.css"
 import {Search,Person,Chat,Notifications} from "@material-ui/icons"
+import {Link} from "react-router-dom"
+import {useContext} from "react";
+import {AuthContext} from "../../context/AuthContext";
+import {PF} from "../../constants/constants";
 export default function TopBar(){
+    const {user} = useContext(AuthContext)
     return (
         <div className="topBarContainer">
             <div className="topBarLeft">
-                <span className="logo">FakeBook</span>
+                <Link to="/" style={{textDecoration:"none"}}>
+                    <span className="logo">FakeBook</span>
+                </Link>
             </div>
             <div className="topBarCenter">
                 <div className="searchBar">
@@ -31,7 +38,9 @@ export default function TopBar(){
                         <span className="topBarIconBadge">1</span>
                     </div>
                 </div>
-                <img src="/assets/person/1.jpeg" alt="" className="topBarImg"/>
+                <Link to={`/profile/${user.username}`}>
+                    <img src={user.profilePicture ? (PF + user.profilePicture) : (PF +"person/noAvatar.png")} alt="" className="topBarImg"/>
+                </Link>
             </div>
         </div>
     )

@@ -17,6 +17,7 @@ router.put("/:id",async (req,res)=>{
             const user = await User.findByIdAndUpdate(req.params.id,{
                 $set:req.body
             })
+            console.log("user ",user)
             res.status(200).json("Account has been updated")
         }catch (err){
             res.status(500).json(err)
@@ -39,7 +40,19 @@ router.delete("/:id",async (req,res)=>{
     }
 })
 //get A user
-router.get("/:id",async (req,res)=>{
+router.get("/",async (req,res)=>{
+    const {userId,username} = req.query
+    try{
+        const user = userId ? await User.findById(userId) : await User.findOne({username:username})
+        //to avoid sending all data, u can remove some here
+        const {password,updatedAt,...other} = user._doc
+        res.status(200).json(other)
+    }
+    catch (err){
+        res.status(500).json(err)
+    }
+})
+/*router.get("/:id",async (req,res)=>{
     try{
         const user = await User.findById(req.params.id)
         //to avoid sending all data, u can remove some here
@@ -49,7 +62,7 @@ router.get("/:id",async (req,res)=>{
     catch (err){
         res.status(500).json(err)
     }
-})
+})*/
 //follow a user
 router.put("/:id/follow",async (req,res)=>{
     if(req.body.userId !== req.params.id){
@@ -98,8 +111,8 @@ router.put("/:id/unfollow",async (req,res)=>{
 })
 
 
-router.get("/",(req,res)=>{
+/*router.get("/",(req,res)=>{
     res.send("hey this is user route")
-})
+})*/
 
 module.exports = router

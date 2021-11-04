@@ -1,22 +1,50 @@
 import "./post.css"
 import {MoreVert} from "@material-ui/icons"
-import {Users} from "../../dummyData"
-import {useState} from "react";
+/*import {Users} from "../../dummyData"*/
+import {useContext, useEffect, useState} from "react";
+import {PF} from "../../constants/constants";
+import axios from "axios";
+import {format} from "timeago.js"
+import {Link} from "react-router-dom"
+import {AuthContext} from "../../context/AuthContext";
+
 export default function Post({post}){
-    const [like,setLike] = useState(post.like)
+    console.log("post  ",post)
+    const [like,setLike] = useState(post.likes.length)
     const [isLiked,setIsLiked] = useState(false)
-    const user = Users.find(user=>user.id===post.userId)
-    const toggleLike = ()=>{
+    const [user,setUser] = useState([])
+    const {user:currentUser} = useContext(AuthContext)
+    useEffect(()=>{
+        const fetchUser = async ()=>{
+            const res = await axios.get(`/users?userId=${post.userId}`)
+            setUser(res.data)
+        }
+        fetchUser()
+    },[])
+    useEffect(()=>{
+        setIsLiked(post.likes.includes(currentUser._id))
+    },[currentUser._id,post.likes])
+    /*const user = Users.find(user=>user.id===post.userId)*/
+    const toggleLike = async ()=>{
+        try{
+            await axios.put("/posts/"+post._id+"/like",{userId:currentUser._id})
+        }
+        catch (error){
+
+        }
         setLike(isLiked ? like-1 : like+1)
         setIsLiked(!isLiked)
     }
+    console.log("user  ",user)
     return <div className="post">
         <div className="postWrapper">
             <div className="postTop">
                 <div className="postTopLeft">
-                    <img src={user.profilePicture} alt="" className="postProfileImg"/>
+                    <Link to={`profile/${user.username}`}>
+                        <img src={user.profilePicture ? (PF + user.profilePicture) : (PF + "person/noAvatar.png")} alt="" className="postProfileImg"/>
+                    </Link>
                     <span className="postUsername">{user.username}</span>
-                    <span className="postDate">{post.date}</span>
+                    <span className="postDate">{format(post.createdAt)}</span>
                 </div>
                 <div className="postTopRight">
                     <MoreVert/>
@@ -24,12 +52,12 @@ export default function Post({post}){
             </div>
             <div className="postCenter">
                 <span className="postText">{post.desc}</span>
-                <img src={post.photo} alt="" className="postImg"/>
+                <img src={PF + post.img} alt="" className="postImg"/>
             </div>
             <div className="postBottom">
                 <div className="postBottomLeft">
-                    <img src="/assets/like.png" alt="" className="likeIcon" onClick={toggleLike}/>
-                    <img src="/assets/heart.png" alt="" className="likeIcon"/>
+                    <img src={ PF + "like.png"} alt="" className="likeIcon" onClick={toggleLike}/>
+                    <img src={ PF + "heart.png"} alt="" className="likeIcon"/>
                     <span className="postLikeCounter">{`${like}  people like this`}</span>
                 </div>
                 <div className="postBottomRight">
