@@ -3,20 +3,32 @@ const User = require("../models/User")
 const bcrypt = require("bcrypt")
 
 /*{
-    "username":"Ahmed",
+    "username":"Ahmad",
     "email":"ahmad@gmail.com",
     "password":"ahmad123",
-    "profilePicture":"",
-    "coverPicture":"",
-    "desc":"Learn Somthing New Everyday!",
+    "profilePicture":"person/0.jpeg",
+    "coverPicture":"cover/1.jpeg",
+    "desc":"Learn Somthing New EveryDay!",
     "city":"Amman",
     "from":"Jordan",
-    "relationship":2
+    "relationship":"2"
+
+}*/
+/*{
+    "username":"Lina Stark",
+    "email":"lina@gmail.com",
+    "password":"lina123",
+    "profilePicture":"person/1.jpeg",
+    "coverPicture":"cover/2.jpeg",
+    "desc":"Beauty lays within",
+    "city":"Berlin",
+    "from":"Germany",
+    "relationship":"1"
 
 }*/
 //REGISTER
 router.post("/register",async (req,res)=>{
-    const {username,email,password} = req.body
+    const {username,email,password,...rest} = req.body
     try{
         //generate new password
         const salt = await bcrypt.genSalt(10)
@@ -25,7 +37,8 @@ router.post("/register",async (req,res)=>{
         const newUser = new User({
             username:username,
             email:email,
-            password:hashedPassword
+            password:hashedPassword,
+            ...rest
         })
         //save user and respond
         const user = await newUser.save()

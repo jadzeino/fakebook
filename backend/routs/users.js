@@ -109,6 +109,60 @@ router.put("/:id/unfollow",async (req,res)=>{
     }
 
 })
+//get user friends
+router.get("/friends/:userId",async (req,res)=>{
+    try{
+        const user = await User.findById(req.params.userId)
+        const friends = await Promise.all(
+            user.followings.map((friendId)=>{
+                console.log("friendId  ",friendId)
+                return User.findById(friendId,'username profilePicture')
+            }))
+        res.status(200).json(friends)
+
+    }catch (err){
+        res.status(500).json(err)
+    }
+
+})
+//get all user follower
+router.get("/:id/followers",async (req,res)=>{
+
+    try{
+        const users = await Promise.all(
+            req.body.followers.map((userId)=>{
+            console.log("userId  ",userId)
+            return User.findById(userId,'username profilePicture')
+        }))
+        console.log("users ",users)
+        res.status(200).json(users)
+
+    }catch (err){
+        res.status(500).json(err)
+    }
+
+
+    /*if(req.body.userId !== req.params.id){
+        try{
+            const toFollowUser = await User.findById(req.params.id)
+            const currentUser = await User.findById(req.body.userId)
+            if(!toFollowUser.followers.includes(currentUser.id)){
+                await toFollowUser.updateOne({$push: {followers:req.body.userId}})
+                await currentUser.updateOne({$push: {followings:req.params.id}})
+                res.status(200).json("user has been followed")
+            }else{
+                res.status(403).json("you are following this user already")
+            }
+
+        }
+        catch (err){
+            res.status(500).json(err)
+        }
+    }else{
+        res.status(403).json("You cant follow your self")
+    }*/
+
+})
 
 
 /*router.get("/",(req,res)=>{

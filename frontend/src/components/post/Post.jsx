@@ -12,7 +12,7 @@ export default function Post({post}){
     console.log("post  ",post)
     const [like,setLike] = useState(post.likes.length)
     const [isLiked,setIsLiked] = useState(false)
-    const [user,setUser] = useState([])
+    const [user,setUser] = useState({})
     const {user:currentUser} = useContext(AuthContext)
     useEffect(()=>{
         const fetchUser = async ()=>{
@@ -20,7 +20,7 @@ export default function Post({post}){
             setUser(res.data)
         }
         fetchUser()
-    },[])
+    },[post.userId])
     useEffect(()=>{
         setIsLiked(post.likes.includes(currentUser._id))
     },[currentUser._id,post.likes])
@@ -61,7 +61,7 @@ export default function Post({post}){
                     <span className="postLikeCounter">{`${like}  people like this`}</span>
                 </div>
                 <div className="postBottomRight">
-                    <span className="postCommentText">{`${post.comment}  comments`}</span>
+                    <span className="postCommentText">{post.comment ? `${post.comment} comments` : `0 comments`}</span>
                 </div>
             </div>
         </div>
