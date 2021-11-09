@@ -9,6 +9,8 @@ const morgan = require("morgan")
 const userRoute = require("./routs/users")
 const authRoute = require("./routs/auth")
 const postRoute = require("./routs/posts")
+const conversationRoute = require("./routs/conversations")
+const messageRoute = require("./routs/messages")
 
 dotenv.config()
 
@@ -23,6 +25,8 @@ app.use(morgan("common"))
 app.use('/api/users',userRoute)
 app.use('/api/auth',authRoute)
 app.use('/api/posts',postRoute)
+app.use('/api/conversations',conversationRoute)
+app.use('/api/messages',messageRoute)
 
 /*app.get("/",(req,res)=>{
     res.send("welcome to homepage")

@@ -1,6 +1,6 @@
 const mongoose = require("mongoose")
 
-//create user schema
+//create post schema
 const PostSchema = new mongoose.Schema({
         userId:{
             type:String,
