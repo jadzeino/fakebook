@@ -4,9 +4,8 @@ import "./chatOnline.css";
 import {PF} from "../../constants/constants";
 
 export default function ChatOnline({ onlineUsers, currentId, setCurrentChat }) {
-    /*const [friends, setFriends] = useState([]);
+    const [friends, setFriends] = useState([]);
     const [onlineFriends, setOnlineFriends] = useState([]);
-    const PF = process.env.REACT_APP_PUBLIC_FOLDER;
 
     useEffect(() => {
         const getFriends = async () => {
@@ -53,8 +52,8 @@ export default function ChatOnline({ onlineUsers, currentId, setCurrentChat }) {
                 </div>
             ))}
         </div>
-    );*/
-    return (
+    );
+    /*return (
         <div className="chatOnline">
                 <div className="chatOnlineFriend">
                     <div className="chatOnlineImgContainer">
@@ -68,5 +67,5 @@ export default function ChatOnline({ onlineUsers, currentId, setCurrentChat }) {
                     <span className="chatOnlineName">Just A Name</span>
                 </div>
         </div>
-    )
+    )*/
 }

@@ -11,6 +11,7 @@ import {RssFeed,
 import {Users} from "../../dummyData";
 import Online from "../online/Online";
 import CloseFriend from "../closeFriend/CloseFriend";
+import {Link} from "react-router-dom";
 export default function SideBar(){
     return (<div className="sideBar">
         <div className="sideBarWrapper">
@@ -20,8 +21,10 @@ export default function SideBar(){
                     <span className="sideBarListItemText">Feed</span>
                 </li>
                 <li className="sideBarListItem">
-                    <Chat className="sideBarIcon"/>
-                    <span className="sideBarListItemText">Chat</span>
+                    <Link to="/messenger" style={{textDecoration:"none",display: "flex"}}>
+                        <Chat className="sideBarIcon"/>
+                        <span className="sideBarListItemText">Chat</span>
+                    </Link>
                 </li>
                 <li className="sideBarListItem">
                     <PlayCircleFilledOutlined className="sideBarIcon"/>

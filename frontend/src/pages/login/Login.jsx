@@ -10,8 +10,6 @@ export default function Login() {
     const handleClick = (e)=>{
         e.preventDefault()
         loginCall({email:email.current.value,password:password.current.value},dispatch)
-        console.log("clicked ",email.current.value)
-        console.log("clicked ",password.current.value)
     }
     console.log("user  ",user)
     return (

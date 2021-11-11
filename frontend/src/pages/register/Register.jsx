@@ -10,7 +10,7 @@ export default function Register() {
     const passwordAgain = useRef()
     const history = useHistory()
 
-    const handleClick = (e)=>{
+    const handleClick = async(e)=>{
         e.preventDefault()
         if(password.current.value !== passwordAgain.current.value){
             passwordAgain.current.setCustomValidity("Passwords dont Match!")
@@ -21,7 +21,7 @@ export default function Register() {
                 password:password.current.value
             }
             try{
-                const res = axios.post("/auth/register",user)
+                await axios.post("/auth/register",user)
                 history.push("/login")
             }catch (error){
                 console.log(error)
